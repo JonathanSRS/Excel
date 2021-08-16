@@ -1,3 +1,3 @@
 # Excel
-Projetos Utilizado VBA  
+Projetos Utilizando VBA  
 Todos os aquivos  contém macros
