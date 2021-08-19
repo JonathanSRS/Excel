@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codigos</title>
+    <link rel="stylesheet" href="./assets/boots/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/boots/css/style.css">
+</head>
+<body class="verdesuvelli">
+<div class="wrapper">
+    <div class="menu fixed-top box1">
+        <nav style="border-radius: 10px;" class="nav laranjapor">
+            <img class=" tm" src="./assets/img/logolobo.png" alt="">
+            <a class="nav-link corletra" href="index.html">Home</a>
+            <a class="nav-link corletra" href="documentacao.html">Documentação</a>
+            <a class="nav-link disabled" href="codigos.html">Códigos</a>
+            <a class="nav-link corletra" href="Imagens.html">Imagens</a>
+            <a class="nav-link corletra" href="Referencias.html">Referencias</a>
+          </nav>
+    </div>
+    
+        <div class="col2 position-fixed mt-1 box2">
+            <ul class="nav flex-column nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#CadastroP">Cadastrar Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Cadastrar Fornecedores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Cadastrar Imagens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Buscar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#BA">Busca Avançada</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Busca Fornecedor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Alterar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Excluir Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Apagar item da nota</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Mostrar Imagem</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Ocultar Imagens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Selecionar Imagem</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Criar Nota</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Gerar Pdf</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#">Gerar Status</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link corbotao corletra" href="#LStatus">Limpar Status</a>
+                </li>
+            </ul>
+        </div>
+    
+                <div class="box3">
+                    <h2 align="center">Funcionamento do sistema</h2>
+                    <h3 class="text-center" id="CadastroP">Cadastro de Produtos</h3>
+                    <pre>
+        Sub cadastro()
+        Application.ScreenUpdating = False
+            Dim rngCel As Range
+            Dim Lr As Double
+            Dim Aba As String
+            Dim Produto As String, Codigo As Double, lote As Double
+            Dim C As Worksheet, E As Worksheet
+            Dim ChkBx As CheckBox
+            On Error GoTo erro
+            Lr = 6
+            Ls = 12
+            Set C = Worksheets("CADASTRO")
+            If ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+            & = "Doce" Or ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+             & = "Bebidas" Or ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+             & = "Salgados" Or ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+              & = "Alimentos" Then
+                Aba = "Alimentos"
+            ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+            & = "Cama Mesa e Banho" Then
+                Aba = "Cama_mesa_e_Banho"
+            ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+            & = "Cozinha" Then
+                Aba = "Cozinha"
+            ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+            & = "Papelaria" Then
+                Aba = "Papelaria"
+            ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+            & = "Utilidades" Or ThisWorkbook.Sheets("Cadastro") _
+            & .Box_Categoria.Value = Ferramenta Then
+                Aba = "Utilidades"
+            End If
+            Set E = Worksheets("Estoque_" & Aba)
+            Sheets("Estoque_" & Aba).Select
+            If ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = "" Then
+                Sheets("CADASTRO").Select
+                MsgBox "Digite um Código", vbExclamation, "Atenção"
+                ThisWorkbook.Sheets("Cadastro").TextCodigo.BackColor = &HFF&
+                End
+            End If
+            If Aba = "Alimentos" Then
+                If ThisWorkbook.Sheets("Cadastro").TextDataV.Value = "" Then
+                    Sheets("CADASTRO").Select
+                    MsgBox "Esse campo é Obrigatário", vbExclamation, "Atenção"
+                    ThisWorkbook.Sheets("Cadastro").TextDataV.BackColor = &HFF&
+                    End
+                End If
+            End If
+            If ThisWorkbook.Sheets("Cadastro").TextProduto.Value = "" Then
+                Sheets("CADASTRO").Select
+                MsgBox "Esse campo é Obrigatário", vbExclamation, "Atenção"
+                ThisWorkbook.Sheets("Cadastro").TextProduto.BackColor = &HFF&
+                End
+            End If
+            If ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "" Then
+                Sheets("CADASTRO").Select
+                MsgBox "Escolha uma categoria", vbExclamation, "Atenção"
+                ThisWorkbook.Sheets("Cadastro").Box_Categoria.BackColor = &HFF&
+                End
+            End If
+            Application.Goto Reference:="R1048576C1"
+            Selection.End(xlUp).Select
+            Codigo = ThisWorkbook.Sheets("Cadastro").TextCodigo.Value
+            Produto = ThisWorkbook.Sheets("Cadastro").TextProduto.Value
+            lote = ThisWorkbook.Sheets("Cadastro").TextLote.Value
+            Do Until E.Cells(Lr, 1) = 0
+                If Codigo = E.Cells(Lr, 1).Value And Produto
+                 = E.Cells(Lr, 2).Value And lote = E.Cells(Lr, 5).Value Then
+                    Sheets("CADASTRO").Select
+                    MsgBox "Esse produto já foi cadastrado",
+                     vbInformation, ""
+                    Sheets("CADASTRO").Select
+                    End
+                End If
+                Lr = Lr + 1
+            Loop
+        Parte1:
+                'ultima linha vazia
+                'L = sheets("Estoque_" & Aba).cells(Rows.Count,1).end(xlUp).row
+                 If E.Range("A" & Lr) = 0 Then
+                  E.Cells(Lr, 1) = ThisWorkbook.Sheets("Cadastro").TextCodigo.Value
+                  E.Cells(Lr, 2) = ThisWorkbook.Sheets("Cadastro").TextProduto.Value
+                  E.Cells(Lr, 3) = ThisWorkbook.Sheets("Cadastro").TextMarca.Value
+                  E.Cells(Lr, 4) = ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value
+                  E.Cells(Lr, 5) = ThisWorkbook.Sheets("Cadastro").TextLote.Value
+                  E.Cells(Lr, 6) = ThisWorkbook.Sheets("Cadastro").TextQtd.Value
+                  E.Cells(Lr, 7) = ThisWorkbook.Sheets("Cadastro").TextDataV.Value
+                  E.Cells(Lr, 8) = ThisWorkbook.Sheets("Cadastro").Box_Tipo.Value
+                  E.Cells(Lr, 9) = ThisWorkbook.Sheets("Cadastro").TextVenda.Value
+                  E.Cells(Lr, 10) = ThisWorkbook.Sheets("Cadastro").TextCompra.Value
+                  E.Cells(Lr, 11) = ThisWorkbook.Sheets("Cadastro").TextFabricação.Value
+                 Else
+                  Do Until E.Cells(Lr, 1) = 0
+                   Lr = Lr + 1
+                  Loop
+                  GoTo Parte1
+                 End If
+            If Range("L" & Lr) <> "" Then GoTo Parte2
+            Range("L" & Lr).Select
+            Range("L" & Lr) = "x"
+            For Each rngCel In Selection
+              With rngCel.MergeArea.Cells
+                If .Resize(1, 1).Address = rngCel.Address Then
+                'Para não exibir o valor da célula vinculada, 
+                remova o apóstrofe no início da linha seguinte:
+                  .NumberFormat = ";;;"
+                  Set ChkBx = ActiveSheet.CheckBoxes.Add(.Left, 
+                  .Top, .Width, .Height)
+                  With ChkBx
+                    'valor padrão:
+                    .Value = xlOff 'pode ser Verdadeiro ou Falso
+                    'célula vinculada
+                    .LinkedCell = rngCel.MergeArea.Cells.Address
+                    .Characters.Text = ""
+                  End With
+                End If
+              End With
+            Next rngCel
+        Parte2:
+            ThisWorkbook.Sheets("Cadastro").TextCodigo.BackColor = &HFFFFFF
+            ThisWorkbook.Sheets("Cadastro").TextProduto.BackColor = &HFFFFFF
+            'ThisWorkbook.Sheets("Cadastro").TextMarca.BackColor = &HFFFFFF
+            'ThisWorkbook.Sheets("Cadastro").TextLote.BackColor = &HFFFFFF
+            'ThisWorkbook.Sheets("Cadastro").TextVenda.BackColor = &HFFFFFF
+            'ThisWorkbook.Sheets("Cadastro").TextCompra.BackColor = &HFFFFFF
+            ThisWorkbook.Sheets("Cadastro").Box_Categoria.BackColor = &HFFFFFF
+            ThisWorkbook.Sheets("Cadastro").TextDataV.BackColor = &HFFFFFF
+            Sheets("CADASTRO").Select
+            Do While Ls <= 21
+                If Range("B" & Ls) = "" Then
+                    Range("B" & Ls) = ThisWorkbook.Sheets("Cadastro").TextCodigo.Value
+                    Range("C" & Ls) = "Cadastrado em " & Aba
+                    Range("E" & Ls) = Time
+                    Range("G" & Ls) = Now
+                    GoTo Final
+                End If
+                Ls = Ls + 1
+             Loop
+        erro:
+            If Err.Number = 91 Then
+                MsgBox "Produto não encontrado", _
+                & vbExclamation, "Atenção"
+            End If
+            If Err.Number = 9 Then
+                MsgBox "Você precisa selecionar uma categoria", _
+                & vbExclamation, "Atenção"
+            End If
+        Final:
+        Application.ScreenUpdating = True
+        End Sub
+                    <hr>
+                    </pre>
+                    <h3 class="text-center" id="BA">Busca Avançada</h3>
+                    <pre>
+    Sub Busca_Avançada()
+    Application.ScreenUpdating = False
+        'linha da tabela cadastro
+        Dim lc As Double
+        Dim celula As Double
+        'linha da tabela estoque
+        Dim le As Double
+        'linha do produto procurado
+        Dim Lr As Double
+        'planilha cadastro
+        Dim N As Worksheet
+        'planilha estoque
+        Dim E As Worksheet
+        Dim BC As Double
+        Dim BN As String
+        Dim BL As Double
+        Dim Aba As String, Categoria As String
+        Dim ESTOQUE As String
+        'número do cont.se
+        Dim C As Integer
+        Dim Msgresp As VbMsgBoxResult
+        On Error GoTo erro
+        ' Verifica a qual planilha pertence o dado
+        Categoria = ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value
+        If ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "Alimentos" Or _ 
+        & ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "Doce" Or _ 
+        & ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "Bebidas" Or _ 
+        & ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "Salgados" Then
+            Aba = "alimentos"
+        ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = _ 
+        & "Cama Mesa e Banho" Then
+            Aba = "Cama_Mesa_e_Banho"
+        ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = _ 
+        & "Cozinha" Then
+            Aba = "Cozinha"
+        ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = _ 
+        & "Papelaria" Then
+            Aba = "Papelaria"
+        ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = _ 
+        & "Utilidades" Or ThisWorkbook.Sheets("Cadastro") _ 
+        & .Box_Categoria.Value = Ferramenta Then
+            Aba = "Utilidades"
+        ElseIf ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value _
+        & = "Briquedos" Then
+            Aba = "Brinquedos"
+        End If
+        If ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = "" Then
+            Sheets("CADASTRO").Select
+            MsgBox "Escolha uma categoria", vbExclamation, "Atenção"
+            ThisWorkbook.Sheets("Cadastro").Box_Categoria.BackColor = &HFF&
+            End
+        End If
+        'valor das linhas iniciais
+        le = 7
+        lc = 10
+        Set E = Worksheets("Estoque_" & Aba)
+        Set N = Worksheets("CADASTRO")
+        If ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = "" Then
+        Else
+            BC = ThisWorkbook.Sheets("Cadastro").TextCodigo.Value
+        End If
+        If ThisWorkbook.Sheets("Cadastro").TextLote.Value = "" Then
+        Else
+            BL = ThisWorkbook.Sheets("Cadastro").TextLote.Value
+        End If
+        BN = ThisWorkbook.Sheets("Cadastro").TextProduto.Value
+        
+        If Aba = "alimentos" Then
+            ESTOQUE = "Tab_alimentos"
+        ElseIf Aba = "Cama_Mesa_e_Banho" Then
+            ESTOQUE = "Tab_CMB"
+        ElseIf Aba = "Brinquedos" Then
+            ESTOQUE = "Tab_BRI"
+        ElseIf Aba = "Cozinha" Then
+            ESTOQUE = "Tab_Cozinha"
+        ElseIf Aba = "Papelaria" Then
+            ESTOQUE = "Tab_Papelaria"
+        ElseIf Aba = "Utilidades" Then
+            ESTOQUE = "Tab_Util"
+        End If
+    inicio:
+        If BC <> 0 And BL <> 0 Then
+        l1 = Sheets("Estoque_" & Aba).Range("" & ESTOQUE).Find _ 
+        & (BC, , , xlWhole).Row
+        L2 = Sheets("Estoque_" & Aba).Range(l1 & ":" & 1048576) _ 
+        & .Find(BL, , , xlWhole).Row
+        Do Until l1 = L2
+        l1 = l1 + 1
+        Loop
+        If l1 = L2 Then
+        Lr = l1
+        ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = E.Cells(Lr, 1)
+        ThisWorkbook.Sheets("Cadastro").TextProduto.Value = E.Cells(Lr, 2)
+        ThisWorkbook.Sheets("Cadastro").TextMarca.Value = E.Cells(Lr, 3)
+        ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = E.Cells(Lr, 4)
+        ThisWorkbook.Sheets("Cadastro").TextLote.Value = E.Cells(Lr, 5)
+        ThisWorkbook.Sheets("Cadastro").TextQtd.Value = E.Cells(Lr, 6)
+        ThisWorkbook.Sheets("Cadastro").TextDataV.Value = E.Cells(Lr, 7)
+        ThisWorkbook.Sheets("Cadastro").Box_Tipo.Value = E.Cells(Lr, 8)
+        ThisWorkbook.Sheets("Cadastro").TextVenda.Value = E.Cells(Lr, 9)
+        ThisWorkbook.Sheets("Cadastro").TextCompra.Value = E.Cells(Lr, 10)
+        ThisWorkbook.Sheets("Cadastro").TextFabricação.Value = E.Cells(Lr, 11)
+        End If
+        celula = Application.WorksheetFunction.Match(BC, Sheets _ 
+        & ("Imagem").Range("A:A"), 0)
+        Mostra_Imagem
+        ActiveSheet.Shapes.Range(Array("Imagem_do_Produto")) _ 
+        & .Select  ' nome da imagem
+        Selection.Formula = "=Imagem!C" & celula
+        GoTo Final
+        End If
+        If BN <> "" And BL <> 0 Then
+        l1 = Sheets("Estoque_" & Aba).Range("" & ESTOQUE).Find(BN, , , xlWhole).Row
+        L2 = Sheets("Estoque_" & Aba).Range(l1 & ":" & 1048576) _ 
+        & .Find(BL, , , xlWhole).Row
+        Do Until l1 = L2
+        l1 = l1 + 1
+        Loop
+        If l1 = L2 Then
+            Lr = l1
+        ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = E.Cells(Lr, 1)
+        ThisWorkbook.Sheets("Cadastro").TextProduto.Value = E.Cells(Lr, 2)
+        ThisWorkbook.Sheets("Cadastro").TextMarca.Value = E.Cells(Lr, 3)
+        ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = E.Cells(Lr, 4)
+        ThisWorkbook.Sheets("Cadastro").TextLote.Value = E.Cells(Lr, 5)
+        ThisWorkbook.Sheets("Cadastro").TextQtd.Value = E.Cells(Lr, 6)
+        ThisWorkbook.Sheets("Cadastro").TextDataV.Value = E.Cells(Lr, 7)
+        ThisWorkbook.Sheets("Cadastro").Box_Tipo.Value = E.Cells(Lr, 8)
+        ThisWorkbook.Sheets("Cadastro").TextVenda.Value = E.Cells(Lr, 9)
+        ThisWorkbook.Sheets("Cadastro").TextCompra.Value = E.Cells(Lr, 10)
+        ThisWorkbook.Sheets("Cadastro").TextFabricação.Value = E.Cells(Lr, 11)
+        End If
+        celula = Application.WorksheetFunction.Match _ 
+        & (BN, Sheets("Imagem").Range("B:B"), 0)
+        'função
+        Mostra_Imagem
+        ActiveSheet.Shapes.Range(Array("Imagem_do_Produto")).Select _ 
+        & ' nome da imagem
+        Selection.Formula = "=Imagem!C" & celula
+        GoTo Final
+        End If
+        If BC <> 0 Then
+            C = WorksheetFunction.CountIf(E.Range("" & ESTOQUE), N.Range("A10"))
+            If C >= 2 Then
+                'criar um questinario (?)
+                Msgresp = MsgBox("Existem " & C & " produtos com esse código, _ 
+                & Deseja continuar mesmo assim?", vbOKCancel)
+                'se resposta igual a não
+                If Msgresp = vbCancel Then
+                    MsgBox "Digite o número do lote", vbInformation
+                    GoTo inicio
+                    'se resposta igual a sim
+                Else: Msgresp = vbOK
+                    Lr = Sheets("ESTOQUE").Range("" & ESTOQUE).Find(BC, , , xlWhole).Row
+                    Do While E.Cells(Lr, 1) = BC
+                        N.Cells(lc, 1) = E.Cells(Lr, 1)
+                        N.Cells(lc, 2) = E.Cells(Lr, 2)
+                        N.Cells(lc, 3) = E.Cells(Lr, 3)
+                        N.Cells(lc, 4) = E.Cells(Lr, 4)
+                        N.Cells(lc, 5) = E.Cells(Lr, 5)
+                        N.Cells(lc, 6) = E.Cells(Lr, 6)
+                        N.Cells(lc, 7) = E.Cells(Lr, 7)
+                        N.Cells(lc, 8) = E.Cells(Lr, 8)
+                        N.Cells(lc, 9) = E.Cells(Lr, 9)
+                        N.Cells(lc, 10) = E.Cells(Lr, 10)
+                        N.Cells(lc, 11) = E.Cells(Lr, 11)
+                        lc = lc + 1
+                        Lr = Lr + 1
+                    Loop
+                End If
+            Else: C = 1
+            Lr = Sheets("Estoque_" & Aba).Range("" & ESTOQUE).Find(BC, , , xlWhole).Row
+            ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = E.Cells(Lr, 1)
+            ThisWorkbook.Sheets("Cadastro").TextProduto.Value = E.Cells(Lr, 2)
+            ThisWorkbook.Sheets("Cadastro").TextMarca.Value = E.Cells(Lr, 3)
+            ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = E.Cells(Lr, 4)
+            ThisWorkbook.Sheets("Cadastro").TextLote.Value = E.Cells(Lr, 5)
+            ThisWorkbook.Sheets("Cadastro").TextQtd.Value = E.Cells(Lr, 6)
+            ThisWorkbook.Sheets("Cadastro").TextDataV.Value = E.Cells(Lr, 7)
+            ThisWorkbook.Sheets("Cadastro").Box_Tipo.Value = E.Cells(Lr, 8)
+            ThisWorkbook.Sheets("Cadastro").TextVenda.Value = E.Cells(Lr, 9)
+            ThisWorkbook.Sheets("Cadastro").TextCompra.Value = E.Cells(Lr, 10)
+            ThisWorkbook.Sheets("Cadastro").TextFabricação.Value = E.Cells(Lr, 11)
+            End If
+            celula = Application.WorksheetFunction.Match(BC, Sheets("Imagem") _ 
+            & .Range("B:B"), 0)
+            Mostra_Imagem
+            ActiveSheet.Shapes.Range(Array("Imagem_do_Produto")).Select  ' nome da imagem
+            Selection.Formula = "=Imagem!C" & celula
+        GoTo Final
+        End If
+        If BN <> "" Then
+            C = WorksheetFunction.CountIf(E.Range("" & ESTOQUE), N.Range("C10"))
+                If C >= 2 Then
+                'criar um questinario (?)
+                Msgresp = MsgBox("Existem " & C & " produtos com esse código, _ 
+                & Deseja continuar mesmo assim?", vbOKCancel)
+                'se resposta igual a não
+                If Msgresp = vbCancel Then
+                    MsgBox "Digite o número do lote", vbInformation
+                    GoTo inicio
+                    'se resposta igual a sim
+                Else: Msgresp = vbOK
+                    Lr = Sheets("Estoque_" & Aba).Range("ESTOQUE").Find(BN, , , xlWhole).Row
+                    Do While E.Cells(Lr, 1) = BN
+                        N.Cells(lc, 1) = E.Cells(Lr, 1)
+                        N.Cells(lc, 2) = E.Cells(Lr, 2)
+                        N.Cells(lc, 3) = E.Cells(Lr, 3)
+                        N.Cells(lc, 4) = E.Cells(Lr, 4)
+                        N.Cells(lc, 5) = E.Cells(Lr, 5)
+                        N.Cells(lc, 6) = E.Cells(Lr, 6)
+                        N.Cells(lc, 7) = E.Cells(Lr, 7)
+                        N.Cells(lc, 8) = E.Cells(Lr, 8)
+                        N.Cells(lc, 9) = E.Cells(Lr, 9)
+                        N.Cells(lc, 10) = E.Cells(Lr, 10)
+                        N.Cells(lc, 11) = E.Cells(Lr, 11)
+                        lc = lc + 1
+                        Lr = Lr + 1
+                    Loop
+                End If
+                Else: C = 1
+                Lr = Sheets("Estoque_" & Aba).Range("" & ESTOQUE).Find(BN, , , xlWhole).Row
+                ThisWorkbook.Sheets("Cadastro").TextCodigo.Value = E.Cells(Lr, 1)
+                ThisWorkbook.Sheets("Cadastro").TextProduto.Value = E.Cells(Lr, 2)
+                ThisWorkbook.Sheets("Cadastro").TextMarca.Value = E.Cells(Lr, 3)
+                ThisWorkbook.Sheets("Cadastro").Box_Categoria.Value = E.Cells(Lr, 4)
+                ThisWorkbook.Sheets("Cadastro").TextLote.Value = E.Cells(Lr, 5)
+                ThisWorkbook.Sheets("Cadastro").TextQtd.Value = E.Cells(Lr, 6)
+                ThisWorkbook.Sheets("Cadastro").TextDataV.Value = E.Cells(Lr, 7)
+                ThisWorkbook.Sheets("Cadastro").Box_Tipo.Value = E.Cells(Lr, 8)
+                ThisWorkbook.Sheets("Cadastro").TextVenda.Value = E.Cells(Lr, 9)
+                ThisWorkbook.Sheets("Cadastro").TextCompra.Value = E.Cells(Lr, 10)
+                ThisWorkbook.Sheets("Cadastro").TextFabricação.Value = E.Cells(Lr, 11)
+                End If
+        celula = Application.WorksheetFunction.Match(BN, Sheets("Imagem").Range("B:B"), 0)
+        'função
+        Mostra_Imagem
+        ActiveSheet.Shapes.Range(Array("Imagem_do_Produto")).Select  ' nome da imagem
+        Selection.Formula = "=Imagem!C" & celula
+        End If
+        If BC = 0 And BN = "" And BL = 0 Then
+            MsgBox "Digite um Código", vbInformation
+            ThisWorkbook.Sheets("Cadastro").TextCodigo.BackColor = &HFF&
+        End If
+    Final:
+    erro:
+        If Err.Number = 91 Then
+            MsgBox "Produto não encontrado", vbExclamation, "Atenção"
+            ThisWorkbook.Sheets("Cadastro").TextProduto.BackColor = &HFF&
+        End If
+        If Err.Number = 9 Then
+            MsgBox "Você precisa selecionar uma categoria", vbExclamation, "Atenção"
+        End If
+        'ThisWorkbook.Sheets("Cadastro").TextVenda = Format(TextVenda, "Currency")
+        'ThisWorkbook.Sheets("Cadastro").TextCompra = Format(TextCompra, "Currency")
+    Application.ScreenUpdating = True
+    End Sub
+            <hr>
+            </pre>
+                    <h3 class="text-center" id="LStatus"> Limpar Status</h3>
+                    <pre>
+        Sub Apagar_status()
+        Application.ScreenUpdating = False
+        Dim Resp As VbMsgBoxResult
+        Dim L As Integer
+        L = ActiveCell.Row
+        If L >= 12 And L <= 21 Then
+            Resp = MsgBox("Apagar apenas a linha selecionada _
+            & (S) ou Toda a Barra de status (N)", vbYesNoCancel, "Apagar Status")
+            If Resp = vbNo Then
+                Range("B12:G21").ClearContents
+            ElseIf Resp = vbCancel Then
+                End
+            ElseIf Resp = vbYes Then
+                Range(Cells(L, 2), Cells(L, 7)).ClearContents
+            End If
+        End If
+        If L > 21 Then MsgBox 
+        "Selecione uma linha da barra de status", vbInformation, "Help"
+        Application.ScreenUpdating = True
+        End Sub
+                    </pre>
+                </div>
+    </div>
+    <script src="./assets/boots/js/bootstrap.min.js"></script>
+</body>
+</html>
