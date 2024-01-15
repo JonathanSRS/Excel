@@ -1,1 +1,3 @@
 Bootstrap/assets/boots/* linguist-vendored
+Bootstrap/assets/boots/css/style.css linguist-vendored=false
+Bootstrap/assets/boots/js/script.js linguist-vendored=false
